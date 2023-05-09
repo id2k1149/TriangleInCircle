@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var isCircleAnimated = false
-    @State private var isDotsAnimated = false
+    @State private var isStep1Animated = false
+    @State private var isStep2Animated = false
+    @State private var isStep3Animated = false
     
     var body: some View {
         VStack(spacing: 30) {
@@ -20,8 +21,8 @@ struct ContentView: View {
             ZStack {
                 Circle()
                     .stroke(Color.blue, lineWidth: 3)
-                    .scaleEffect(isCircleAnimated ? 1.0 : 0.0)
-                    .opacity(isCircleAnimated ? 1.0 : 0.0)
+                    .scaleEffect(isStep1Animated ? 1.0 : 0.0)
+                    .opacity(isStep1Animated ? 1.0 : 0.0)
                     .animation(Animation.easeInOut(duration: 1.0))
                 
                 Circle()
@@ -29,8 +30,10 @@ struct ContentView: View {
             }
             .frame(width: 200, height: 200)
             .onAppear {
-                self.isCircleAnimated = true
+                self.isStep1Animated = true
             }
+            .opacity(isStep1Animated ? 1.0 : 0.0)
+            .animation(Animation.easeInOut(duration: 1.0).delay(1.0))
             
             // Step 2: Mark the dots on the circle
             ZStack {
@@ -44,16 +47,18 @@ struct ContentView: View {
                     
                     Circle()
                         .fill(Color.blue)
-                        .scaleEffect(isDotsAnimated ? 1.0 : 0.0)
-                        .opacity(isDotsAnimated ? 1.0 : 0.0)
-                        .animation(Animation.easeInOut(duration: 0.5).delay(Double(index) * 0.5))
+                        .scaleEffect(isStep2Animated ? 1.2 : 1.0)
+                        .opacity(isStep2Animated ? 1.0 : 0.0)
+                        .animation(Animation.easeInOut(duration: 0.5).repeatForever().delay(Double(index) * 0.5))
                         .frame(width: 10, height: 10)
                         .position(x: x + 100, y: y + 100)
                 }
             }
             .frame(width: 200, height: 200)
+            .opacity(isStep2Animated ? 1.0 : 0.0)
+            .animation(Animation.easeInOut(duration: 1.0).delay(3.0))
             .onAppear {
-                self.isDotsAnimated = true
+                self.isStep2Animated = true
             }
             
             // Step 3: Connect the dots to form a triangle
@@ -79,11 +84,30 @@ struct ContentView: View {
                     path.closeSubpath()
                 }
                 .stroke(Color.blue, lineWidth: 3)
+                .scaleEffect(isStep3Animated ? 1.0 : 0.0)
+                .opacity(isStep3Animated ? 1.0 : 0.0)
+                .animation(Animation.easeInOut(duration: 1.0).delay(3.0))
+                .onAppear {
+                    self.isStep3Animated = true
+                }
             }
             .frame(width: 200, height: 200)
         }
     }
 }
+
+//    .stroke(Color.blue, lineWidth: 3)
+//    .scaleEffect(isStep3Animated ? 1.0 : 0.0)
+//    .opacity(isStep3Animated ? 1.0 : 0.0)
+//    .animation(Animation.easeInOut(duration: 1.0).delay(3.0))
+//    .onAppear {
+//        self.isStep3Animated = true
+//    }
+//}
+//}
+//}
+//}
+
 
 
 struct ContentView_Previews: PreviewProvider {
